@@ -68,6 +68,18 @@ export default {
         }.bind(this)
       );
       this.$refs.fileform.addEventListener(
+        "dragover",
+        function(e) {
+          e.srcElement.classList.add('hover')
+        }.bind(this)
+      );
+       this.$refs.fileform.addEventListener(
+        "dragleave",
+        function(e) {
+          e.srcElement.classList.remove('hover')
+        }.bind(this)
+      );
+      this.$refs.fileform.addEventListener(
         "drop",
         function(e) {
           for (let i = 0; i < e.dataTransfer.files.length; i++) {
@@ -78,6 +90,15 @@ export default {
       );
     }
   },
+  beforeDestroy(){
+    this.$refs.fileform.removeEventListener('drag', function(e){e},false);
+    this.$refs.fileform.removeEventListener('dragstart', function(e){e},false);
+    this.$refs.fileform.removeEventListener('dragend', function(e){e},false);
+    this.$refs.fileform.removeEventListener('dragover', function(e){e},false);
+    this.$refs.fileform.removeEventListener('dragenter', function(e){e},false);
+    this.$refs.fileform.removeEventListener('dragleave', function(e){e},false);
+    this.$refs.fileform.removeEventListener('drop', function(e){e},false);
+  },
   computed: {
     ...mapGetters(["MAIN_LANG", "GET_MAP_VISION"])
   }
@@ -85,25 +106,22 @@ export default {
 </script>
 
 <style lang="scss">
-.form__wrapper {
-  width: 50%;
-  margin: 140px auto;
-  border: 2px solid $neutral-primary;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+#file-drag-drop{
+  width: 100%;
 }
 
 .fileform {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  width: 60%;
+  margin: 0 auto;
   height: 200px;
   border: 1px dashed $neutral-regular;
-}
-
-.drop-files {
+  &.hover{
+    background: $neutral-secondary;
+  }
 }
 
 div.file-listing {
@@ -115,4 +133,5 @@ div.file-listing {
 div.file-listing img {
   height: 100px;
 }
+
 </style>
