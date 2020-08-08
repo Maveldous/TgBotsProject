@@ -16,7 +16,8 @@ let router = new Router({
     {
       path: "/form",
       name: "form",
-      component: formComponent
+      component: formComponent,
+      props: true
     }
   ]
 });

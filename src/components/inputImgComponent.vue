@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 
 export default {
   name: "Map",
@@ -21,6 +21,7 @@ export default {
       files: []
     };
   },
+  props: ['value'],
   methods: {
     determineDragAndDropCapable() {
       var div = document.createElement("div");
@@ -31,8 +32,8 @@ export default {
       );
     },
     getImagePreviews() {
-      let reader = new FileReader();
       for (let i = 0; i < this.files.length; i++) {
+        let reader = new FileReader();
         reader.addEventListener(
           "load",
           function() {
@@ -44,7 +45,14 @@ export default {
       }
     }
   },
+  created(){
+
+  },
   mounted() {
+    if(this.value) {
+      this.files = this.value
+      this.getImagePreviews()
+    }
     this.dragAndDropCapable = this.determineDragAndDropCapable();
     if (this.dragAndDropCapable) {
       [
@@ -82,6 +90,7 @@ export default {
       this.$refs.fileform.addEventListener(
         "drop",
         function(e) {
+          e.srcElement.classList.remove('hover')
           for (let i = 0; i < e.dataTransfer.files.length; i++) {
             this.files.push(e.dataTransfer.files[i]);
           }
@@ -98,9 +107,6 @@ export default {
     this.$refs.fileform.removeEventListener('dragenter', function(e){e},false);
     this.$refs.fileform.removeEventListener('dragleave', function(e){e},false);
     this.$refs.fileform.removeEventListener('drop', function(e){e},false);
-  },
-  computed: {
-    ...mapGetters(["MAIN_LANG", "GET_MAP_VISION"])
   }
 };
 </script>

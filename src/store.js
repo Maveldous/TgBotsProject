@@ -6,9 +6,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     databot: [
-      {
-        name: "name"
-      }
+
     ]
   },
   getters: {
@@ -17,13 +15,13 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
-    CHANGE_STATE_TRUE(state) {
-      state.state = !state.state;
+    ADD_DATA_ELEM(state, payload) {
+      state.databot.push(payload)
     }
   },
   actions: {
-    TOGGLE_STATE_TRUE({ commit }) {
-      commit("CHANGE_STATE_TRUE");
+    ADD_DATA_ELEM({ commit }, payload) {
+      commit("ADD_DATA_ELEM", payload);
     }
   }
 });

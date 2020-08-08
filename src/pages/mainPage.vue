@@ -1,7 +1,7 @@
 <template>
   <main class="main">
     <div class="main__wrapper">
-      <router-link to="/form">
+      <router-link :to="{name: 'form', params: { info: ''}}" >
         <button class="main__botBtn">
           Создать бота
         </button>
@@ -10,9 +10,10 @@
         v-for="(item, index) in GET_DATA"
         :key="index"
         class="main__botItem"
+        @click="openEdit(item)"
       >
         <p class="main__botItem-title">{{ item.name }}</p>
-        <button class="main__botItem-btn">Удалить</button>
+        <button @click.stop="notsome" class="main__botItem-btn">Удалить</button>
       </article>
     </div>
   </main>
@@ -30,7 +31,13 @@ export default {
     ...mapGetters(["GET_DATA"])
   },
   methods: {
-    ...mapActions(["TOGGLE_STATE_TRUE"])
+    ...mapActions(["TOGGLE_STATE_TRUE"]),
+    openEdit(value){
+      this.$router.push({ name: 'form', params: { info: value } })
+    },
+    notsome(){
+      console.log('notsome');
+    }
   }
 };
 </script>
