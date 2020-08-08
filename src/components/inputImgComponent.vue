@@ -2,6 +2,8 @@
   <div id="file-drag-drop">
     <form class="fileform" ref="fileform">
       <span class="drop-files">Перетащите картинку сюда</span>
+      <span class="drop-files"> или </span>
+      <input type="file" >
     </form>
     <div v-for="(file, key) in files" :key="key + 'image'" class="file-listing">
       <img class="preview" v-bind:ref="'preview' + parseInt(key)" />
@@ -11,7 +13,6 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
 
 export default {
   name: "Map",
@@ -119,8 +120,8 @@ export default {
 
 .fileform {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
   width: 60%;
   margin: 0 auto;
   height: 200px;
@@ -131,13 +132,17 @@ export default {
 }
 
 div.file-listing {
-  width: 400px;
+  width: 60%;
   margin: auto;
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 div.file-listing img {
   height: 100px;
+}
+
+.drop-files{
+  text-align: center;
 }
 
 </style>

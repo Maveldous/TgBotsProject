@@ -1,7 +1,7 @@
 <template>
   <main class="main">
     <div class="main__wrapper">
-      <router-link :to="{name: 'form', params: { info: ''}}" >
+      <router-link :to="{name: 'form', params: { info: false, index: -1}}" >
         <button class="main__botBtn">
           Создать бота
         </button>
@@ -10,10 +10,10 @@
         v-for="(item, index) in GET_DATA"
         :key="index"
         class="main__botItem"
-        @click="openEdit(item)"
+        @click="openEdit(item, index)"
       >
         <p class="main__botItem-title">{{ item.name }}</p>
-        <button @click.stop="notsome" class="main__botItem-btn">Удалить</button>
+        <button @click.stop="deleteElem(index)" class="main__botItem-btn">Удалить</button>
       </article>
     </div>
   </main>
@@ -31,12 +31,12 @@ export default {
     ...mapGetters(["GET_DATA"])
   },
   methods: {
-    ...mapActions(["TOGGLE_STATE_TRUE"]),
-    openEdit(value){
-      this.$router.push({ name: 'form', params: { info: value } })
+    ...mapActions(["DELETE_DATA_ELEM"]),
+    openEdit(value, index){
+      this.$router.push({ name: 'form', params: { info: value, index: index } })
     },
-    notsome(){
-      console.log('notsome');
+    deleteElem(index){
+      this.DELETE_DATA_ELEM(index)
     }
   }
 };
@@ -47,9 +47,14 @@ export default {
   &__wrapper {
     width: 50%;
     margin: 0 auto;
+    @media(max-width: 450px){
+      &{
+        width: 80%;
+      }
+    }
   }
   &__botBtn {
-    width: 400px;
+    width: 60%;
     height: 100px;
     display: block;
     margin: 10px auto;
@@ -74,7 +79,8 @@ export default {
     border-radius: 5px;
   }
   &__botItem-title {
-    border-bottom: 1px solid #000;
+    width: 30%;
+    word-wrap: break-word;
   }
 }
 </style>

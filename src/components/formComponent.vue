@@ -28,20 +28,18 @@ export default {
   name: "Map",
   data: function() {
     return {
-      date: '',
+      date: ''
     };
   },
   components: {
     inputimg,
     Datepicker
   },
-  props: ['info'],
-  mounted(){
-    
-  },
+  props: ['info', 'index'],
   methods: {
     ...mapActions([
-      'ADD_DATA_ELEM'
+      'ADD_DATA_ELEM',
+      'REPLACE_DATA_ELEM'
     ]),
     dateGet(event){
       this.date = event;
@@ -51,14 +49,17 @@ export default {
       let description = document.querySelectorAll('.form__input')[1].value;
       let img = this.$refs.inputIMG.files;
       let date = this.date;
-      this.ADD_DATA_ELEM(
-        {
-          name: name,
-          description: description,
-          img: img,
-          date: date
-        }
-      )
+      const obj = {
+              name: name,
+              description: description,
+              img: img,
+              date: date
+            }
+      if(this.index){
+        this.ADD_DATA_ELEM(obj)
+      }else {
+        this.REPLACE_DATA_ELEM(obj, this.index)
+      }
       this.$router.push('/')
     }
   },
@@ -74,6 +75,17 @@ export default {
 
 <style lang="scss">
 
+.form::before{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+  }
+
 .form__wrapper {
   width: 50%;
   margin: 140px auto;
@@ -81,6 +93,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #fff;
+  @media(max-width: 450px){
+    &{
+      width: 80%;
+    }
+  }
 }
 
 .form__title{
@@ -92,6 +110,14 @@ export default {
   margin: 10px 0;
   border: 1px solid $neutral-regular;
   border-radius: 5px;
+  @media(max-width: 600px){
+    &{
+      width: 80%;
+    }
+    & .form-control{
+      width: 100%;
+    }
+  }
 }
 
 .inputimg {
